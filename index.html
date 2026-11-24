@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171044">
+<title>IQ GAMING</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;padding:16px;
+ font-family:Arial,sans-serif;color:white;
+ background:
+ radial-gradient(circle at 10% 5%,#713bd0 0,transparent 35%),
+ radial-gradient(circle at 90% 30%,#087fae 0,transparent 38%),
+ linear-gradient(145deg,#130d39,#111d4c 55%,#103b60);
+}
+.app{max-width:600px;margin:auto}
+header{
+ display:flex;align-items:center;justify-content:space-between;
+ padding:17px;background:#ffffff18;
+ border:1px solid #ffffff45;border-radius:20px;
+ box-shadow:0 0 25px #765cff40;
+}
+.logo{font-size:25px;font-weight:900;letter-spacing:1px}
+.crown{color:#ffe36b}
+.tag{font-size:11px;color:#c7e8ff;margin-top:5px}
+.profile{font-size:27px;background:#ffffff20;padding:10px;border-radius:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:17px 0}
+.stat{
+ text-align:center;padding:14px 5px;border-radius:15px;
+ background:linear-gradient(145deg,#33256f,#174e7c);
+ border:1px solid #a59aff80;box-shadow:0 5px 15px #0004
+}
+.stat small{display:block;color:#d5e2ff;font-size:11px}
+.stat b{display:block;font-size:22px;margin-top:6px}
+.progressbox{background:#ffffff18;padding:13px;border-radius:14px;margin-bottom:18px}
+.progressline{height:9px;background:#ffffff30;border-radius:20px;overflow:hidden;margin-top:9px}
+#progress{height:100%;width:0;background:linear-gradient(90deg,#00edff,#a66bff,#ff58bd);transition:.3s}
+.category{text-align:center;margin:19px 0}
+.category span{
+ display:inline-block;padding:10px 19px;border-radius:30px;
+ background:linear-gradient(90deg,#7839df,#087ebd);
+ font-size:14px;font-weight:bold;box-shadow:0 0 18px #6a65ff70
+}
+.card{
+ padding:20px;border-radius:23px;
+ background:linear-gradient(145deg,#29215eef,#123b62ef);
+ border:1px solid #aaa0ff80;box-shadow:0 12px 30px #0005
+}
+.qno{color:#77eaff;font-size:13px;font-weight:bold;margin-bottom:13px}
+.question{font-size:22px;line-height:1.5;font-weight:bold}
+.english{font-size:17px;line-height:1.5;color:#c9ddff;margin-top:10px}
+.choose{text-align:center;color:#c6d7ff;font-size:13px;margin:22px 0 13px}
+
+/* अलग-अलग चार Gaming Buttons */
+.answers{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
+}
+.option{
+ width:100%;
+ min-height:118px;
+ padding:13px 9px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:9px;
+ border:2px solid #9889ff;
+ border-radius:19px;
+ background:linear-gradient(145deg,#393184,#155b83);
+ color:#fff;
+ font-size:16px;
+ font-weight:bold;
+ line-height:1.45;
+ text-align:center;
+ cursor:pointer;
+ box-shadow:0 6px 16px #0005,0 0 13px #7564ff50;
+ transition:transform .15s,box-shadow .15s;
+}
+.option:active{transform:scale(.96)}
+.letter{
+ width:32px;height:32px;border-radius:10px;
+ display:flex;align-items:center;justify-content:center;
+ background:#ffffff25;color:#fff;font-size:16px;
+ border:1px solid #ffffff50;
+}
+.option:disabled{opacity:1;cursor:default}
+.option.correct{
+ border-color:#55ffd0;
+ background:linear-gradient(145deg,#087c65,#16b98d);
+ box-shadow:0 0 20px #16e6a580;
+}
+.option.wrong{
+ border-color:#ff789b;
+ background:linear-gradient(145deg,#a52e64,#d34b60);
+ box-shadow:0 0 20px #ff4e8180;
+}
+#result{
+ display:none;margin-top:17px;padding:16px;
+ border-radius:15px;background:#ffffff18;line-height:1.6
+}
+#next{
+ display:none;width:100%;margin-top:16px;padding:17px;
+ border:0;border-radius:15px;
+ background:linear-gradient(90deg,#00d9dc,#a36aff);
+ color:#101334;font-size:17px;font-weight:900;
+}
+.footer{text-align:center;color:#b5c9e8;font-size:12px;margin:23px 0}
+@media(max-width:360px){
+ body{padding:10px}
+ .option{min-height:108px;font-size:14px}
+ .question{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+ <div>
+  <div class="logo"><span class="crown">👑</span> IQ GAMING</div>
+  <div class="tag">KNOWLEDGE • CHALLENGE • LEVEL UP</div>
+ </div>
+ <div class="profile">🎮</div>
+</header>
+
+<section class="stats">
+ <div class="stat"><small>⭐ TOTAL XP</small><b id="xp">0</b></div>
+ <div class="stat"><small>🏆 LEVEL</small><b id="level">1</b></div>
+ <div class="stat"><small>🔥 CORRECT</small><b id="correct">0</b></div>
+</section>
+
+<div class="progressbox">
+ <div style="display:flex;justify-content:space-between;font-size:12px">
+  <span>LEVEL PROGRESS</span>
+  <span id="progressText">0 / 10</span>
+ </div>
+ <div class="progressline"><div id="progress"></div></div>
+</div>
+
+<div class="category"><span id="category">🌍 GENERAL KNOWLEDGE</span></div>
+
+<main class="card">
+ <div class="qno" id="qno">QUESTION 01</div>
+ <div class="question" id="questionHi"></div>
+ <div class="english" id="questionEn"></div>
+ <div class="choose">👇 उत्तर चुनें / SELECT YOUR ANSWER</div>
+ <div class="answers" id="answers"></div>
+ <div id="result"></div>
+ <button id="next" onclick="nextQuestion()">NEXT QUESTION ➜</button>
+</main>
+
+<div class="footer">👑 IQ GAMING • THINK SMART • PLAY SMART</div>
+</div>
+
+<script>
+const bank=[
+{cat:"भारत / INDIA",h:"भारत की राजधानी क्या है?",e:"What is the capital of India?",o:["मुंबई / Mumbai","नई दिल्ली / New Delhi","भोपाल / Bhopal","जयपुर / Jaipur"],a:1,why:"नई दिल्ली भारत की राजधानी है। / New Delhi is the capital of India."},
+{cat:"मध्य प्रदेश / MADHYA PRADESH",h:"मध्य प्रदेश की राजधानी क्या है?",e:"What is the capital of Madhya Pradesh?",o:["इंदौर / Indore","जबलपुर / Jabalpur","भोपाल / Bhopal","ग्वालियर / Gwalior"],a:2,why:"भोपाल मध्य प्रदेश की राजधानी है। / Bhopal is the capital of Madhya Pradesh."},
+{cat:"भूगोल / GEOGRAPHY",h:"विश्व का सबसे बड़ा महासागर कौन सा है?",e:"Which is the largest ocean in the world?",o:["हिंद महासागर / Indian Ocean","प्रशांत महासागर / Pacific Ocean","अटलांटिक महासागर / Atlantic Ocean","आर्कटिक महासागर / Arctic Ocean"],a:1,why:"प्रशांत महासागर सबसे बड़ा है। / The Pacific Ocean is the largest."},
+{cat:"इतिहास / HISTORY",h:"भारत को स्वतंत्रता किस वर्ष मिली?",e:"In which year did India become independent?",o:["1945","1947","1950","1952"],a:1,why:"भारत 15 अगस्त 1947 को स्वतंत्र हुआ। / India became independent on 15 August 1947."},
+{cat:"संविधान / CONSTITUTION",h:"भारत का संविधान कब लागू हुआ?",e:"When did the Constitution of India come into effect?",o:["15 अगस्त 1947","26 जनवरी 1950","26 नवंबर 1949","2 अक्टूबर 1950"],a:1,why:"संविधान 26 जनवरी 1950 को लागू हुआ। / It came into effect on 26 January 1950."},
+{cat:"विज्ञान / SCIENCE",h:"पृथ्वी का प्राकृतिक उपग्रह कौन है?",e:"What is the natural satellite of Earth?",o:["सूर्य / Sun","मंगल / Mars","चंद्रमा / Moon","शुक्र / Venus"],a:2,why:"चंद्रमा पृथ्वी का प्राकृतिक उपग्रह है। / The Moon is Earth's natural satellite."},
+{cat:"विश्व / WORLD",h:"जापान की राजधानी क्या है?",e:"What is the capital of Japan?",o:["बीजिंग / Beijing","टोक्यो / Tokyo","सियोल / Seoul","बैंकॉक / Bangkok"],a:1,why:"टोक्यो जापान की राजधानी है। / Tokyo is the capital of Japan."},
+{cat:"भूगोल / GEOGRAPHY",h:"विश्व का सबसे ऊँचा पर्वत कौन सा है?",e:"Which is the highest mountain in the world?",o:["K2","कंचनजंगा / Kanchenjunga","माउंट एवरेस्ट / Mount Everest","नंदा देवी / Nanda Devi"],a:2,why:"माउंट एवरेस्ट विश्व का सबसे ऊँचा पर्वत है। / Mount Everest is the highest mountain."},
+{cat:"भारत / INDIA",h:"भारत का राष्ट्रीय पशु कौन है?",e:"What is the national animal of India?",o:["शेर / Lion","बाघ / Tiger","हाथी / Elephant","तेंदुआ / Leopard"],a:1,why:"बाघ भारत का राष्ट्रीय पशु है। / The tiger is India's national animal."},
+{cat:"अर्थव्यवस्था / ECONOMICS",h:"भारत की मुद्रा क्या है?",e:"What is the currency of India?",o:["डॉलर / Dollar","यूरो / Euro","रुपया / Rupee","येन / Yen"],a:2,why:"भारत की मुद्रा रुपया है। / India's currency is the rupee."},
+{cat:"इतिहास / HISTORY",h:"ताजमहल किस शहर में है?",e:"In which city is the Taj Mahal located?",o:["दिल्ली / Delhi","आगरा / Agra","लखनऊ / Lucknow","जयपुर / Jaipur"],a:1,why:"ताजमहल आगरा में स्थित है। / The Taj Mahal is in Agra."},
+{cat:"विज्ञान / SCIENCE",h:"पानी का रासायनिक सूत्र क्या है?",e:"What is the chemical formula of water?",o:["CO2","O2","H2O","NaCl"],a:2,why:"पानी का रासायनिक सूत्र H2O है। / The chemical formula of water is H2O."}
+];
+
+let xp=0,correct=0,turn=0,seen=new Set(),wrongQueue=[],current=null,locked=false;
+
+function pickQuestion(){
+ let due=wrongQueue.findIndex(item=>item.due<=turn);
+ if(due>=0)return wrongQueue.splice(due,1)[0].q;
+
+ let available=bank.map((q,i)=>i).filter(i=>!seen.has(i));
+ if(available.length)return available[0];
+
+ if(wrongQueue.length){
+  wrongQueue.sort((a,b)=>a.due-b.due);
+  return wrongQueue.shift().q;
+ }
+ return null;
+}
+
+function showQuestion(){
+ locked=false;
+ current=pickQuestion();
+ document.getElementById("result").style.display="none";
+ document.getElementById("next").style.display="none";
+
+ if(current===null){
+  document.getElementById("qno").textContent="CHALLENGE COMPLETE";
+  document.getElementById("questionHi").textContent="शानदार! सभी उपलब्ध सवाल पूरे हो गए।";
+  document.getElementById("questionEn").textContent="Great! You completed all available questions.";
+  document.getElementById("answers").innerHTML="";
+  return;
+ }
+
+ const q=bank[current];
+ document.getElementById("qno").textContent="QUESTION "+String(turn+1).padStart(2,"0");
+ document.getElementById("questionHi").textContent=q.h;
+ document.getElementById("questionEn").textContent=q.e;
+ document.getElementById("category").textContent="🌍 "+q.cat;
+
+ const area=document.getElementById("answers");
+ area.innerHTML="";
+ q.o.forEach((option,i)=>{
+  const b=document.createElement("button");
+  b.className="option";
+  b.innerHTML='<span class="letter">'+String.fromCharCode(65+i)+'</span><span>'+option+'</span>';
+  b.onclick=()=>answer(i,b);
+  area.appendChild(b);
+ });
+}
+
+function answer(choice,button){
+ if(locked)return;
+ locked=true;
+ const q=bank[current];
+ const buttons=document.querySelectorAll(".option");
+
+ buttons.forEach((b,i)=>{
+  b.disabled=true;
+  if(i===q.a)b.classList.add("correct");
+ });
+
+ const result=document.getElementById("result");
+ result.style.display="block";
+
+ if(choice===q.a){
+  xp+=10;
+  correct++;
+  result.innerHTML="✅ सही जवाब! / CORRECT ANSWER!<br>⭐ +10 XP";
+ }else{
+  button.classList.add("wrong");
+  wrongQueue.push({q:current,due:turn+5});
+  result.innerHTML="❌ गलत जवाब / INCORRECT<br><b>सही उत्तर / Correct answer:</b> "+q.o[q.a]+"<br><br>"+q.why;
+ }
+
+ seen.add(current);
+ document.getElementById("xp").textContent=xp;
+ document.getElementById("correct").textContent=correct;
+ document.getElementById("next").style.display="block";
+}
+
+function nextQuestion(){
+ turn++;
+ document.getElementById("level").textContent=Math.floor(turn/10)+1;
+ document.getElementById("progressText").textContent=(turn%10)+" / 10";
+ document.getElementById("progress").style.width=((turn%10)*10)+"%";
+ showQuestion();
+}
+
+showQuestion();
+</script>
+</body>
+</html>
